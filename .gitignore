@@ -21,3 +21,9 @@ data/external/
 config/logging/*.log
 .DS_Store
 .vscode/
+
+# Documentación, informes y guías (y códigos relacionados)
+docs/
+reports/final/
+scripts/generate_report.py
+

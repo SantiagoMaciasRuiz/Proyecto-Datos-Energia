@@ -22,9 +22,6 @@ Proyecto desarrollado bajo el marco académico de la **Cátedra Pedro Nel Gómez
 4. **Dashboard Interactivo Premium (Streamlit):**
    * Visualización interactiva con gráficos de series de tiempo, perfiles horarios/diarios de carga, heatmaps e inferencia futura (2026-2027).
    * **Simulador de Entrenamiento en Vivo:** Página donde se puede ver en tiempo real cómo convergen las curvas de pérdida del modelo y cómo se va reconstruyendo la señal de demanda paso a paso.
-5. **Compilación de Reportes en PDF:**
-   * Automatización de reportes académicos con ReportLab y renderizado de fórmulas LaTeX, citas APA 7 y gráficos del análisis.
-
 ---
 
 ## 📊 Resultados y Métricas de Validación (Holdout 2025)
@@ -51,16 +48,10 @@ Proyecto-Datos-Energia/
 │   ├── pages/                # Hojas del Dashboard (EDA, Inferencia, Conclusiones, Simulador)
 │   └── app.py                # Entrada principal del Dashboard
 ├── data/                     # CSVs resumidos de validación (Parquet ignorados por Git)
-├── docs/                     # Documentos Markdown (Reportes y Diapositivas)
-│   ├── reportes/             # Reporte de Auditoría y Diapositivas de Apoyo
-│   ├── guia_exposicion_catedra.md # Guía científica de estudio para la sustentación
-│   └── informe_final.md      # Informe de investigación académica principal
 ├── models/                   # CSVs de predicciones, métricas e inferencias a futuro
-├── reports/                  # Figuras estadísticas y entregables finales en PDF
-│   ├── figures/              # Gráficos de series de tiempo y modelos (.png)
-│   └── final/                # PDFs compilados (Informe, Guía y Diapositivas)
-├── scripts/                  # Ejecutables del pipeline, EDA y generador de PDF
-│   ├── generate_report.py    # Script compilador de Markdown a PDF profesional
+├── reports/                  # Figuras y gráficos del análisis
+│   └── figures/              # Gráficos de series de tiempo y modelos (.png)
+├── scripts/                  # Ejecutables del pipeline y análisis exploratorio (EDA)
 │   └── run_pipeline.py       # Pipeline E2E (ETL + Entrenamiento de Modelos)
 ├── src/                      # Código fuente estructurado (etl, eda, modeling)
 └── requirements.txt          # Dependencias de Python
@@ -94,19 +85,6 @@ python scripts/run_pipeline.py --start-date 2022-01-01 --end-date 2025-12-31 --h
 streamlit run dashboard/app.py
 ```
 *Accede en tu navegador a [http://localhost:8501](http://localhost:8501).*
-
-### 4. Compilar Documentos PDF
-Puedes compilar el informe final de investigación, la guía de estudio de la cátedra o las diapositivas académicas a PDF de la siguiente manera:
-```powershell
-# Compilar Informe de Investigación Principal
-python scripts/generate_report.py
-
-# Compilar Guía de Exposición y Estudio Científico
-python scripts/generate_report.py docs/guia_exposicion_catedra.md reports/final/guia_exposicion_catedra.pdf
-
-# Compilar Diapositivas Académicas de Apoyo
-python scripts/generate_report.py docs/reportes/presentacion_academica.md reports/final/presentacion_academica.pdf
-```
 
 ---
 
