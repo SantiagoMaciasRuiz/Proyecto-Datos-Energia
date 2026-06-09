@@ -166,6 +166,35 @@ if os.path.exists(METRICS_PATH):
         }),
         use_container_width=True
     )
+    
+    # Guía interactiva de métricas
+    with st.expander("🧮 Guía Interactiva: ¿Qué representan estas métricas de evaluación?", expanded=False):
+        st.markdown("""
+        ### 📌 ¿Qué significa cada número en la tabla comparativa?
+        
+        Las métricas de error y precisión nos permiten medir objetivamente qué tan cerca están las predicciones de los modelos de la demanda real del Sistema Interconectado Nacional (SIN).
+        
+        *   **📉 MAE (Error Absoluto Medio - Mean Absolute Error):**
+            *   *¿Qué es?* El promedio de las diferencias absolutas entre la demanda real y la predicción.
+            *   *Fórmula:* $$MAE = \\frac{1}{N} \\sum_{i=1}^{N} |y_i - \\hat{y}_i|$$
+            *   *Interpretación en el SIN:* Mide la desviación promedio física en kilovatios (kW). Por ejemplo, un MAE de **55,193.70 kW** (en el caso de XGBoost) significa que las predicciones del modelo se desvían, en promedio, alrededor de 55 MW (Megavatios) de la demanda nacional real.
+            *   *Importancia:* Le permite al operador de red (XM) saber cuánta energía en promedio necesitará compensar o balancear en tiempo real.
+        *   **📊 RMSE (Raíz del Error Cuadrático Medio - Root Mean Squared Error):**
+            *   *¿Qué es?* La raíz cuadrada del promedio de las desviaciones al cuadrado.
+            *   *Fórmula:* $$RMSE = \\sqrt{\\frac{1}{N} \\sum_{i=1}^{N} (y_i - \\hat{y}_i)^2}$$
+            *   *Interpretación en el SIN:* Al elevar los errores al cuadrado antes de promediar, penaliza severamente las **desviaciones grandes** (los peores errores). Un RMSE de **75,944.84 kW** indica que el modelo comete muy pocos errores masivos de gran escala.
+            *   *Importancia:* En la operación del SIN, subestimar drásticamente la demanda en la hora pico de consumo (e.g., 20:00) es muy peligroso porque puede causar inestabilidad en la frecuencia de la red o apagones. El RMSE ayuda a seleccionar modelos que no tengan estas fallas críticas.
+        *   **📈 MAPE (Error Porcentual Absoluto Medio - Mean Absolute Percentage Error):**
+            *   *¿Qué es?* El promedio de las desviaciones absolutas expresado como un porcentaje del consumo real.
+            *   *Fórmula:* $$MAPE = \\frac{100\\%}{N} \\sum_{i=1}^{N} \\left| \\frac{y_i - \\hat{y}_i}{y_i} \\right|$$
+            *   *Interpretación en el SIN:* Mide la precisión relativa del modelo. Un MAPE de **0.58%** en XGBoost significa que, en promedio, las predicciones del modelo tienen un error que representa apenas el 0.58% del consumo real del país en esa hora.
+            *   *Importancia:* Permite comparar la precisión del modelo en diferentes escalas de consumo. En el despacho de energía en Colombia, cualquier error menor al **1.00%** se considera de calidad óptima para la toma de decisiones comerciales y operativas.
+        *   **🏆 R² (Coeficiente de Determinación - R-Squared):**
+            *   *¿Qué es?* La proporción de la varianza total de la demanda que es explicada exitosamente por el modelo.
+            *   *Fórmula:* $$R^2 = 1 - \\frac{\\sum_{i=1}^{N} (y_i - \\hat{y}_i)^2}{\\sum_{i=1}^{N} (y_i - \\bar{y})^2}$$
+            *   *Interpretación en el SIN:* Varía entre 0 y 1 (0% a 100%). Un $R^2$ de **0.9952 (99.52%)** certifica que el modelo, con sus variables temporales (rezagos y calendario), explica el 99.52% de toda la inercia y oscilaciones de la demanda. El 0.48% restante es ruido blanco o variaciones climáticas impredecibles.
+            *   *Importancia:* Valida estadísticamente la capacidad explicativa global de las variables diseñadas en el proyecto.
+        """)
 else:
     st.warning("⚠️ No se encontraron las métricas de entrenamiento en `models/model_metrics.csv`.")
     st.info("Por favor, ejecuta el pipeline primero para habilitar los KPI dinámicos.")

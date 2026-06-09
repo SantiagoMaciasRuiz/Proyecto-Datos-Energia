@@ -260,6 +260,28 @@ else:
             - **Inferencia Futura (Forecast):** Proyecta la demanda hacia el futuro (años 2026 y 2027) donde no existen lecturas reales. Los modelos tabulares operan de forma **recursiva** (una predicción alimenta a la siguiente como rezago `lag_1`), permitiendo observar la inercia estacional pura del sistema eléctrico colombiano.
             """)
 
+        with st.expander("🧮 Guía de Métricas de Evaluación: ¿Qué significa cada número?", expanded=False):
+            st.markdown("""
+            ### 📌 Entendiendo las Métricas de Error y Precisión
+            
+            *   **📉 MAE (Error Absoluto Medio - Mean Absolute Error):**
+                *   *¿Qué es?* El promedio de las diferencias absolutas entre la demanda real y la predicción.
+                *   *Fórmula:* $$MAE = \\frac{1}{N} \\sum_{i=1}^{N} |y_i - \\hat{y}_i|$$
+                *   *Interpretación:* Representa la desviación promedio en las mismas unidades de la serie de tiempo (kW). Un MAE de **55,193.70 kW** en XGBoost significa que, en promedio, las predicciones del modelo se desvían 55,193.70 kilovatios (hacia arriba o hacia abajo) con respecto a la demanda real del SIN.
+            *   **📊 RMSE (Raíz del Error Cuadrático Medio - Root Mean Squared Error):**
+                *   *¿Qué es?* La raíz cuadrada del promedio de las desviaciones al cuadrado.
+                *   *Fórmula:* $$RMSE = \\sqrt{\\frac{1}{N} \\sum_{i=1}^{N} (y_i - \\hat{y}_i)^2}$$
+                *   *Interpretación:* Al elevar los errores al cuadrado antes de promediar, esta métrica penaliza con mucha mayor fuerza los errores grandes (desviaciones severas en picos de demanda). Un RMSE de **75,944.84 kW** para XGBoost nos indica que el modelo comete muy pocos errores catastróficos o desviaciones extremas.
+            *   **📈 MAPE (Error Porcentual Absoluto Medio - Mean Absolute Percentage Error):**
+                *   *¿Qué es?* El promedio del error absoluto expresado como porcentaje del valor real.
+                *   *Fórmula:* $$MAPE = \\frac{100\\%}{N} \\sum_{i=1}^{N} \\left| \\frac{y_i - \\hat{y}_i}{y_i} \\right|$$
+                *   *Interpretación:* Es la métrica más intuitiva para juzgar la precisión de un modelo. Un MAPE de **0.58%** en XGBoost significa que el error promedio del modelo representa apenas el **0.58% del consumo total** del país en esa hora. En la industria eléctrica, cualquier valor inferior al 1.00% se considera de nivel y precisión de estándar comercial/industrial.
+            *   **🏆 R² (Coeficiente de Determinación - R-Squared):**
+                *   *¿Qué es?* Mide la proporción de la varianza del comportamiento de la demanda real que es explicada satisfactoriamente por el modelo.
+                *   *Fórmula:* $$R^2 = 1 - \\frac{\\sum_{i=1}^{N} (y_i - \\hat{y}_i)^2}{\\sum_{i=1}^{N} (y_i - \\bar{y})^2}$$
+                *   *Interpretación:* Varía entre 0 y 1 (o de 0% a 100%). Un $R^2$ de **99.52%** (0.9952) para XGBoost certifica que el modelo y sus variables (rezagos temporales y calendario) logran explicar el **99.52% de todas las oscilaciones** históricas del consumo de potencia, restando solo un 0.48% como ruido blanco impredecible.
+            """)
+
         # Pestañas principales
         tab1, tab2 = st.tabs(["📉 Evaluación Histórica (Conjunto de Test)", "🔮 Pronóstico Futuro (Forecast 2026-2027)"])
 

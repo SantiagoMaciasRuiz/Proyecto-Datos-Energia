@@ -475,3 +475,39 @@ else:
                     time.sleep(1.2)
                     
                 status_text.success("🎉 **¡Descomposición de Prophet completa!** Observa cómo la suma secuencial de ondas armónicas da lugar a la curva compleja de consumo real.")
+
+    # Guía didáctica de parámetros y métricas al final del contenido
+    st.write("---")
+    st.write("### 📚 Guía Didáctica: Parámetros del Modelo y Métricas en Tiempo Real")
+    
+    col_guide_1, col_guide_2 = st.columns(2)
+    with col_guide_1:
+        with st.expander("🛠️ ¿Qué significan los hiperparámetros que puedes ajustar?", expanded=False):
+            st.markdown("""
+            Al entrenar un modelo, los hiperparámetros controlan cómo aprende el algoritmo a partir de los datos históricos:
+            
+            *   **🌳 Número de Árboles / Rondas de Boosting:**
+                *   *En Random Forest / XGBoost:* Es la cantidad de árboles de decisión individuales que se construyen. A mayor número de árboles, el modelo suele ser más preciso y estable, pero consume más tiempo de cómputo.
+            *   **🎚️ Tasa de Aprendizaje (Learning Rate):**
+                *   *En XGBoost:* Controla la magnitud de la corrección que hace cada nuevo árbol sobre los errores de los anteriores. Valores bajos (e.g., 0.05 - 0.10) requieren más rondas de entrenamiento pero previenen el sobreajuste (overfitting).
+            *   **📐 Profundidad Máxima del Árbol (Max Depth):**
+                *   *En Random Forest / XGBoost:* La cantidad máxima de ramificaciones verticales de cada árbol. Árboles muy profundos pueden memorizar el ruido de los datos (sobreajuste), mientras que árboles muy simples no capturarán los patrones de demanda (subajuste).
+            *   **📅 Ventana de Ajuste (Prophet):**
+                *   Define el tamaño de la historia que analiza el modelo. Permite regular si queremos que el modelo priorice la inercia macroeconómica reciente.
+            """)
+            
+    with col_guide_2:
+        with st.expander("🧮 ¿Qué representan las métricas que ves cambiar en la consola?", expanded=False):
+            st.markdown("""
+            A medida que la simulación avanza, los indicadores de desempeño cambian en tiempo real:
+            
+            *   **📈 Coeficiente de Determinación ($R^2$):**
+                *   Mide el porcentaje de la variabilidad del consumo que el modelo logra predecir. Un $R^2 = 0.9900$ significa que el modelo captura el 99% de las variaciones del consumo real.
+            *   **📉 MAPE (Error Porcentual Absoluto Medio):**
+                *   Es el error relativo promedio expresado como porcentaje. Un MAPE de 1.2% significa que en promedio el pronóstico yerra por un 1.2% del total de la carga en esa hora.
+            *   **📉 MAE (Error Absoluto Medio):**
+                *   El error físico directo medido en kilovatios (kW). Te dice cuánta potencia (en kW) le falta o le sobra a la predicción en promedio.
+            *   **📉 RMSE (Raíz del Error Cuadrático Medio):**
+                *   Mide las desviaciones pero penalizando fuertemente los errores grandes. Si ves que el RMSE se mantiene controlado, significa que el modelo no está cometiendo errores catastróficos de predicción.
+            """)
+
