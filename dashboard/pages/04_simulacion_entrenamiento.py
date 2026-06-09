@@ -83,20 +83,25 @@ st.markdown('<div class="page-subtitle">Visualiza en tiempo real cómo los model
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.join(BASE_DIR, "..", "..")
 DATA_PATH = os.path.join(PROJECT_ROOT, "data", "processed", "historical_demand_processed.parquet")
+SAMPLE_PATH = os.path.join(BASE_DIR, "..", "assets", "historical_demand_sample.csv")
 
 # Cargar datos base
 @st.cache_data
 def load_base_data():
-    if not os.path.exists(DATA_PATH):
-        return None
-    df = pd.read_parquet(DATA_PATH)
-    df['fecha_hora'] = pd.to_datetime(df['fecha_hora'])
-    return df
+    if os.path.exists(DATA_PATH):
+        df = pd.read_parquet(DATA_PATH)
+        df['fecha_hora'] = pd.to_datetime(df['fecha_hora'])
+        return df
+    elif os.path.exists(SAMPLE_PATH):
+        df = pd.read_csv(SAMPLE_PATH)
+        df['fecha_hora'] = pd.to_datetime(df['fecha_hora'])
+        return df
+    return None
 
 base_df = load_base_data()
 
 if base_df is None:
-    st.error("⚠️ No se encontró el dataset procesado en `data/processed/historical_demand_processed.parquet`.")
+    st.error("⚠️ No se encontró el dataset procesado en data/processed/historical_demand_processed.parquet ni el dataset de muestra.")
     st.info("Por favor, ejecuta el pipeline primero para procesar la serie de tiempo.")
 else:
     # Ingeniería de Variables simplificada (causal)
