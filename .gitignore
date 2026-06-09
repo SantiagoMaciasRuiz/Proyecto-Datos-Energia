@@ -1,0 +1,23 @@
+# Entornos virtuales y Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Modelos y artefactos pesados (más de 100MB)
+models/artifacts/
+*.joblib
+*.pkl
+
+# Carpetas de datos (la base de datos se genera localmente vía ETL)
+data/raw/
+data/processed/
+data/interim/
+data/external/
+
+# Logs y configuraciones locales
+config/logging/*.log
+.DS_Store
+.vscode/
